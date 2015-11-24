@@ -63,7 +63,7 @@ $(document).ready(function() {
 // }
 
 function drawDistricts(map){
-  var color = ["none","#ffe082", "#ffbd13", "#ff8053", "#ff493d"];
+  var color = ["none","#F1635A", "#FF1635A", "#F1635A", "#ff493d"];
 
   var layers = {
     totalIDPs: {
@@ -250,8 +250,8 @@ function drawDistricts(map){
     this._div.innerHTML = '<h4>' + layers[this._layer]['name'] + '</h4>' +  (props ?
       '<table>' +
       '<tr><td style="text-align: right;">Country: </td><td>&nbsp;&nbsp; <b>' + props.Terr_Name + '</b><td></tr>' +
-      '<tr><td style="text-align: right;">Food Security Cluster (FSC): </td><td>&nbsp;&nbsp; <b>' + props.REGION__NA + '</b><td></tr>' +
-      '<tr><td style="text-align: right;">Coordination Structures with FSC: </td><td>&nbsp;&nbsp; <b>' + layers[this._layer]['values'][props.ISO_3] + '</b><td></tr>' +
+      '<tr><td style="text-align: right;">Food Security Cluster (FSC): </td><td>&nbsp;&nbsp; <b>' + FSC[props.ISO_3] + '</b><td></tr>' +
+      '<tr><td style="text-align: right;">Coordination Structures with FSC: </td><td>&nbsp;&nbsp; <b>' + coord[props.ISO_3] + '</b><td></tr>' +
       '</table>'
       : 'Hover over a country');
   };
