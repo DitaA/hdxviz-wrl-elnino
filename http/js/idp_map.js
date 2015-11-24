@@ -8,7 +8,7 @@ $(document).ready(function() {
   }).addTo(map);
 
   L.control.attribution({position: 'topright'}).addTo(map);
-  map.setView([18, -4], 3);
+  map.setView([10, 25], 3);
 
   drawDistricts(map);
   // c3Sparklines();
