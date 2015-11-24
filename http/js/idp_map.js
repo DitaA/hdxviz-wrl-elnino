@@ -8,7 +8,7 @@ $(document).ready(function() {
   }).addTo(map);
 
   L.control.attribution({position: 'topright'}).addTo(map);
-  map.setView([18, -4], 5);
+  map.setView([18, -4], 3);
 
   drawDistricts(map);
   // c3Sparklines();
@@ -67,7 +67,7 @@ function drawDistricts(map){
 
   var layers = {
     totalIDPs: {
-      name: 'Number of IDPs per 100,000 inhabitants in 2013',
+      name: 'Countries affected by El Nino',
       threshold: [1, 50, 100, 500],
       values: totalIDPs
     }
@@ -100,10 +100,10 @@ function drawDistricts(map){
 
   function getStyle(values, threshold){
     function internalGetColor(color, i){
-      return {color: color[i], fillColor: color[i], fillOpacity: 0.6, opacity: 0.7, weight: 2};
+      return {color: color[i], fillColor: color[i], fillOpacity: 0.6, opacity: 0.7, weight: 1};
     }
     return function (feature){
-      var pcoderef = feature.properties.Pcode;
+      var pcoderef = feature.properties.ISO_3;
       if(pcoderef in values) {
         for (var i = 0; i < 4; i++){
           if (values[pcoderef] < threshold[i])
@@ -249,11 +249,11 @@ function drawDistricts(map){
   info.update = function (props) {
     this._div.innerHTML = '<h4>' + layers[this._layer]['name'] + '</h4>' +  (props ?
       '<table>' +
-      '<tr><td style="text-align: right;">Country: </td><td>&nbsp;&nbsp; <b>' + props.CERCLE_NAM + '</b><td></tr>' +
-      '<tr><td style="text-align: right;">District: </td><td>&nbsp;&nbsp; <b>' + props.REGION__NA + '</b><td></tr>' +
-      '<tr><td style="text-align: right;">Value: </td><td>&nbsp;&nbsp; <b>' + layers[this._layer]['values'][props.Pcode] + '</b><td></tr>' +
+      '<tr><td style="text-align: right;">Country: </td><td>&nbsp;&nbsp; <b>' + props.Terr_Name + '</b><td></tr>' +
+      '<tr><td style="text-align: right;">Food Security Cluster (FSC): </td><td>&nbsp;&nbsp; <b>' + props.REGION__NA + '</b><td></tr>' +
+      '<tr><td style="text-align: right;">Coordination Structures with FSC: </td><td>&nbsp;&nbsp; <b>' + layers[this._layer]['values'][props.ISO_3] + '</b><td></tr>' +
       '</table>'
-      : 'Hover over a country/district');
+      : 'Hover over a country');
   };
   info.showOtherMessage = function (message){
     this._div.innerHTML = message;
@@ -271,34 +271,34 @@ function drawDistricts(map){
 
   info.addTo(map);
 
-  var legend = L.control({position: 'bottomleft'});
+  //var legend = L.control({position: 'bottomleft'});
 
-  legend.onAdd = function (map) {
-    this._div = L.DomUtil.create('div', 'map-info legend');
-    return this._div;
-  };
-  legend.update = function (){
-    var threshold = layers[this._layer]['threshold'];
+  //legend.onAdd = function (map) {
+  //  this._div = L.DomUtil.create('div', 'map-info legend');
+  //  return this._div;
+  //};
+  //legend.update = function (){
+  //  var threshold = layers[this._layer]['threshold'];
 
-    this._div.innerHTML = '<div><i style="background: white"></i> 0&ndash;' + threshold[0] + '</div>';
-    for (var i = 0; i < threshold.length; i++) {
-      this._div.innerHTML +=
-        '<div><i style="background:' + color[i+1] + '"></i> ' +
-        threshold[i] + (threshold[i + 1] ? '&ndash;' + threshold[i + 1] + '</div>' : '+</div>');
-    }
-  };
-  legend.updateLayer = function (layer){
-    for (l in layers)
-      if (layers[l]['name'] == layer){
-        this._layer = l;
-        this.update();
-        return;
-      }
-
-    this.update();
-    this._layer = null;
-  };
-  legend.addTo(map);
+  //  this._div.innerHTML = '<div><i style="background: white"></i> 0&ndash;' + threshold[0] + '</div>';
+  //  for (var i = 0; i < threshold.length; i++) {
+  //    this._div.innerHTML +=
+  //      '<div><i style="background:' + color[i+1] + '"></i> ' +
+  //      threshold[i] + (threshold[i + 1] ? '&ndash;' + threshold[i + 1] + '</div>' : '+</div>');
+  //  }
+  //};
+  //legend.updateLayer = function (layer){
+  //  for (l in layers)
+  //    if (layers[l]['name'] == layer){
+  //      this._layer = l;
+  //      this.update();
+  //      return;
+  //    }
+  //
+  //  this.update();
+  //  this._layer = null;
+  //};
+  //legend.addTo(map);
 
   L.control.layers(regularLayers).addTo(map);
 
